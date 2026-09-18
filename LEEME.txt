@@ -1,0 +1,21 @@
+# NEW ERA — versión con Internet
+
+Esta versión conserva el diseño de NEW ERA y añade una conexión preparada para Firebase.
+
+## Para usarla como página web
+1. Sube los archivos a un hosting HTTPS (por ejemplo GitHub Pages, Netlify o Vercel).
+2. Abre la dirección HTTPS.
+3. Desde el navegador podrás instalarla como aplicación.
+
+## Para activar la nube
+1. Crea un proyecto en Firebase.
+2. Activa Authentication > Anonymous.
+3. Crea Firestore Database.
+4. Registra una aplicación Web.
+5. Copia la configuración que Firebase entrega.
+6. Abre `index.html` y sustituye los valores `PON_AQUI_...` dentro de `FIREBASE_CONFIG`.
+7. Vuelve a subir `index.html` al hosting.
+
+La aplicación mantiene los datos locales y tiene un botón “Sincronizar ahora” para guardar actividades y rutinas en Firestore.
+
+Importante: la clave apiKey de Firebase para una app web no es una contraseña secreta; la seguridad debe hacerse mediante las reglas de Firestore y Authentication.
