@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>NEW ERA</title>
+<style>
+:root{--bg:#070707;--card:#111;--card2:#171717;--line:#292929;--text:#f5f5f5;--muted:#9e9e9e;--accent:#e10600;--accent2:#ff3b35;--green:#29d66d;--yellow:#ffd34d;--blue:#65a9ff;--shadow:0 10px 30px #0008}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% -15%,#300000 0,#0b0b0b 35%,#050505 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}
+body.compact .card{padding:12px}body.compact .entry{padding:8px 0}body.noanim *{transition:none!important;animation:none!important}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1180px;margin:auto;min-height:100vh}.top{position:sticky;top:0;z-index:30;background:#070707ee;backdrop-filter:blur(15px);border-bottom:1px solid #222;padding:18px}.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:25px;font-weight:900;letter-spacing:1px}.brand span{color:var(--accent)}.top small{color:var(--muted)}
+nav{display:flex;gap:7px;overflow:auto;padding-top:13px}.tab{white-space:nowrap;border:1px solid #333;background:#151515;color:#bbb;padding:9px 13px;border-radius:11px}.tab.active{background:linear-gradient(135deg,var(--accent),#850000);color:#fff;border-color:#b30000;font-weight:800}
+main{padding:18px}.view{display:none}.view.active{display:block}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:16px}.card{background:linear-gradient(180deg,#151515,#0e0e0e);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:var(--shadow);margin-bottom:16px}
+h1,h2,h3,p{margin-top:0}h2{font-size:21px;margin-bottom:13px}h3{font-size:15px;margin-bottom:9px}.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:12px;font-weight:800;color:#ddd;margin:7px 0 4px}input,select,textarea{width:100%;background:#0b0b0b;color:#fff;border:1px solid #333;border-radius:11px;padding:11px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent)}textarea{min-height:80px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.btn{border:0;border-radius:11px;padding:11px 14px;background:linear-gradient(135deg,var(--accent),#920000);color:#fff;font-weight:800}.btn.gray{background:#282828}.btn.outline{background:#101010;border:1px solid #444}.btn.danger{background:#3a1212;color:#ffaaa6;border:1px solid #622020}.btn.small{padding:8px 10px;font-size:12px}
+.days{display:flex;gap:5px;flex-wrap:wrap;margin:5px 0 10px}.daybtn{width:36px;height:36px;border-radius:10px;border:1px solid #383838;background:#151515;color:#aaa;font-weight:800}.daybtn.sel{background:var(--accent);color:#fff;border-color:#ff514b}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:#101010;border:1px solid #292929;border-radius:14px;padding:13px}.metric b{display:block;font-size:25px;margin:2px 0}.metric small{color:var(--muted)}
+.progress{height:9px;background:#252525;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0}
+.message{border:1px solid #302020;background:#180b0b;border-radius:14px;padding:13px;margin-bottom:14px}.message b{font-size:18px}.message span{display:block;color:#bbb;font-size:13px;margin-top:4px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.search{flex:1;min-width:200px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{border:1px solid #333;background:#151515;color:#bbb;border-radius:999px;padding:7px 10px;font-size:12px}.chip.active{background:#4a0808;color:#fff;border-color:#a00000}
+.entry{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid #262626}.entry:last-child{border-bottom:0}.entry.attention{border-left:3px solid var(--yellow);padding-left:10px}.entry.priority{border-left:3px solid var(--accent);padding-left:10px}.check{width:24px;height:24px;accent-color:var(--green);margin:2px 0 0;flex:none}.entrymain{flex:1;min-width:0}.title{font-weight:850}.done .title{text-decoration:line-through;color:#777}.meta{font-size:12px;color:var(--muted);margin-top:4px}.note{font-size:13px;white-space:pre-wrap;margin-top:7px;color:#ddd}.badge{display:inline-block;padding:3px 7px;border-radius:99px;font-size:11px;font-weight:800;margin-left:5px}.b-hice{background:#12351f;color:#71f1a4}.b-nohice{background:#3a1212;color:#ff9993}.b-hare{background:#393011;color:#ffe486}.b-attn{background:#4a3b09;color:#ffe27a}.entrytools{display:flex;gap:5px;align-items:flex-start}.icon{border:1px solid #333;background:#141414;color:#ddd;border-radius:9px;padding:7px}
+.empty{padding:25px;text-align:center;color:#777;border:1px dashed #333;border-radius:14px}
+.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.notice{padding:10px;border-radius:11px;background:#151515;border:1px solid #303030;font-size:12px;color:#bbb}
+.calendarHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.calendarHead button{border:1px solid #333;background:#151515;color:#fff;border-radius:10px;padding:8px 12px}.month{text-transform:capitalize;font-weight:850;font-size:18px}.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.dow{text-align:center;color:#777;font-size:11px;padding:4px}.calday{min-height:70px;border:1px solid #292929;background:#101010;border-radius:10px;padding:7px;cursor:pointer}.calday:hover{border-color:#555}.calday.muted{opacity:.35}.calday.today{outline:1px solid #a00000}.calday.selected{background:#260808;border-color:var(--accent)}.daynum{font-weight:800}.dots{display:flex;gap:3px;margin-top:9px}.dot{width:7px;height:7px;border-radius:50%;display:block}.dot.g{background:var(--green)}.dot.r{background:#ff4f48}.dot.y{background:var(--yellow)}.dot.b{background:var(--blue)}.calcount{font-size:10px;color:#999;margin-top:5px}
+.bars{display:flex;align-items:end;gap:8px;height:170px;padding-top:15px}.barwrap{flex:1;height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:4px}.bar{width:100%;max-width:38px;background:linear-gradient(180deg,var(--accent2),#6d0000);border-radius:7px 7px 2px 2px;min-height:3px}.barlabel,.barval{font-size:10px;color:#aaa}
+.insight{display:grid;grid-template-columns:1fr 1fr;gap:10px}.insight div{background:#101010;border:1px solid #292929;padding:12px;border-radius:12px}.insight b{display:block;margin-bottom:3px}
+.setting{padding:14px 0;border-bottom:1px solid #282828}.setting:last-child{border-bottom:0}.toggleline{display:flex;justify-content:space-between;gap:15px;align-items:center}.switch{width:48px;height:27px;border-radius:99px;background:#333;border:0;padding:3px}.switch i{display:block;width:21px;height:21px;background:#aaa;border-radius:50%;transition:.2s}.switch.on{background:var(--accent)}.switch.on i{transform:translateX(21px);background:#fff}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#181818;border:1px solid #444;color:#fff;padding:11px 15px;border-radius:12px;z-index:100;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:18px;z-index:90}.modal.show{display:flex}.modalbox{width:min(500px,100%);background:#111;border:1px solid #333;border-radius:18px;padding:20px;box-shadow:0 20px 60px #000}.statebuttons{display:grid;gap:8px}.statebuttons button{padding:13px;border-radius:11px;border:1px solid #333;background:#181818;color:#fff;font-weight:800}.statebuttons button:first-child{background:#12351f;color:#7af2a5}.statebuttons button:nth-child(2){background:#351313;color:#ff9d97}.statebuttons button:nth-child(3){background:#393011;color:#ffe486}.statebuttons .cancel{background:#292929;color:#ddd}
+.trash{color:#aaa;font-size:12px}.hidden{display:none!important}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){main{padding:12px}.top{padding:14px}.row,.row3{grid-template-columns:1fr}.calday{min-height:57px;padding:5px}.calcount{display:none}.insight{grid-template-columns:1fr}.metric b{font-size:21px}.brand{font-size:22px}}
+
+.routine{border:1px solid #2b2b2b;border-radius:16px;padding:14px;margin-bottom:11px;background:#101010}
+.routine:last-child{margin-bottom:0}.routinehead{display:flex;justify-content:space-between;gap:10px}
+.routinetitle{font-weight:900;font-size:16px}.routinedetail{font-size:12px;color:#999;margin-top:3px}
+.routinepercent{font-weight:900}.routinedays{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:13px}
+.rday{border:1px solid #303030;background:#151515;border-radius:11px;padding:8px 4px;text-align:center}
+.rday .rname{display:block;color:#888;font-size:10px;font-weight:800}.rday .rstatus{display:block;font-size:11px;margin-top:5px;font-weight:900}
+.rday.done{background:#10351e;border-color:#226d3e}.rday.done .rstatus{color:#6ff0a0}
+.rday.no{background:#351313;border-color:#6b2622}.rday.no .rstatus{color:#ff9993}
+.rday.today{outline:1px solid #b30000}.routine-actions{display:flex;gap:6px;margin-top:10px}
+@media(max-width:520px){.routinedays{gap:4px}.rday{padding:7px 2px}.rday .rname{font-size:9px}.rday .rstatus{font-size:10px}}
+
+</style>
+
+<meta name="theme-color" content="#050505">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NEW ERA">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+html,body{overscroll-behavior:none}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="toprow"><div><div class="brand">NEW <span>ERA</span></div><small id="headerDate"></small></div><button class="icon" onclick="go('configuracion')">⚙️</button></div>
+ <nav>
+  <button class="tab active" data-view="hoy">🏠 Hoy</button>
+  <button class="tab" data-view="historial">📜 Historial</button>
+  <button class="tab" data-view="estadisticas">📊 Estadísticas</button>
+  <button class="tab" data-view="rutinas">🏃 Rutinas</button>
+  <button class="tab" data-view="configuracion">⚙️ Configuración</button>
+ </nav>
+</header>
+
+<main>
+<section id="hoy" class="view active">
+ <div class="message"><b id="greeting">Buenos días</b><span id="dailyMessage">Estas son tus actividades de hoy.</span></div>
+ <div class="stats">
+  <div class="metric"><small>Actividades de hoy</small><b id="mTotal">0</b></div>
+  <div class="metric"><small>✅ Hechas</small><b id="mDone">0</b></div>
+  <div class="metric"><small>❌ No hechas</small><b id="mNo">0</b></div>
+  <div class="metric"><small>→ Pendientes</small><b id="mPending">0</b></div>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <div class="sectiontitle"><h3 style="margin:0">📈 Tu progreso</h3><b id="todayRate">0%</b></div>
+  <div class="progress"><i id="todayProgress"></i></div>
+  <div class="muted" id="weekRateText" style="margin-top:7px">Cumplimiento de la semana: 0%</div>
+ </div>
+
+ <div class="grid">
+  <div class="card">
+   <h2>Nueva actividad</h2>
+   <label>Actividad</label><input id="title" placeholder="Ej. Estudiar, entrenar, tarea...">
+   <div class="row"><div><label>Estado inicial</label><select id="type"><option value="hare">→ Lo haré</option><option value="hice">✓ Lo hice</option><option value="nohice">✕ No lo hice</option></select></div><div><label>Fecha</label><input id="date" type="date"></div></div>
+   <label>Repetición</label>
+   <select id="repeat"><option value="none">No repetir</option><option value="daily">Todos los días</option><option value="weekdays">Lunes a viernes</option><option value="weekly">Cada semana</option><option value="custom">Días elegidos</option></select>
+   <div id="repeatDaysWrap" class="hidden"><label>Días</label><div class="days" id="days"></div></div>
+   <div class="row"><div><label>Desde</label><input id="startDate" type="date"></div><div><label>Hasta</label><input id="endDate" type="date"></div></div>
+   <label>Recordatorio</label><input id="reminder" type="time">
+   <div class="notice">Puedes configurar avisos antes, insistencia y horario de no molestar desde ⚙️ Configuración.</div>
+   <label>Nota</label><textarea id="note" placeholder="Opcional..."></textarea>
+   <div class="actions"><button class="btn" onclick="addEntry()">Guardar actividad</button><button class="btn gray" onclick="clearForm()">Limpiar</button></div>
+  </div>
+
+  <div class="card">
+   <div class="sectiontitle"><h2 style="margin:0">Actividades de hoy</h2><button class="btn small" onclick="requestNotifications()">🔔 Activar avisos</button></div>
+   <div class="toolbar"><input id="search" class="search" placeholder="🔎 Buscar actividad..." oninput="renderToday()"></div>
+   <div class="chips">
+    <button class="chip active" data-filter="all" onclick="setFilter('all',this)">Todas</button>
+    <button class="chip" data-filter="hice" onclick="setFilter('hice',this)">✓ Lo hice</button>
+    <button class="chip" data-filter="nohice" onclick="setFilter('nohice',this)">✕ No lo hice</button>
+    <button class="chip" data-filter="hare" onclick="setFilter('hare',this)">→ Lo haré</button>
+    <button class="chip" data-filter="repeat" onclick="setFilter('repeat',this)">🔁 Recurrentes</button>
+    <button class="chip" data-filter="reminder" onclick="setFilter('reminder',this)">🔔 Recordatorio</button>
+   </div>
+   <div id="todayList"></div>
+ </div>
+ </div>
+</section>
+<section id="historial" class="view">
+ <div class="card"><div class="sectiontitle"><h2>Historial</h2><span class="muted">Lo que ocurrió cada día</span></div>
+  <div class="toolbar"><button class="chip active" onclick="setHistory(7,this)">7 días</button><button class="chip" onclick="setHistory(14,this)">14 días</button><button class="chip" onclick="setHistory(30,this)">30 días</button><button class="chip" onclick="setHistory('all',this)">Todo</button></div>
+  <div id="historyList"></div>
+ </div>
+ <div class="card"><div class="sectiontitle"><h3>🗑️ Papelera</h3><button class="btn danger small" onclick="emptyTrash()">Vaciar papelera</button></div><div class="trash">Las actividades eliminadas permanecen aquí 7 días.</div><div id="trashList" style="margin-top:10px"></div></div>
+</section>
+
+<section id="estadisticas" class="view">
+ <div class="card"><h2>📊 Estadísticas</h2>
+  <div class="stats"><div class="metric"><small>Completado total</small><b id="sRate">0%</b></div><div class="metric"><small>Total hechas</small><b id="sDone">0</b></div><div class="metric"><small>Racha actual</small><b id="sStreak">0 🔥</b></div><div class="metric"><small>Mejor racha</small><b id="sBest">0</b></div></div>
+  <div class="section"><h3>Últimos 7 días</h3><div class="bars" id="bars"></div></div>
+  <div class="insight">
+   <div><b>⭐ Mejor día</b><span id="bestDay" class="muted">—</span></div>
+   <div><b>📌 Más cumplida</b><span id="topActivity" class="muted">—</span></div>
+   <div><b>⚠️ Más incumplida</b><span id="badActivity" class="muted">—</span></div>
+   <div><b>📅 Comparación semanal</b><span id="weekCompare" class="muted">—</span></div>
+  </div>
+ </div>
+ <div class="card"><h3>Distribución de estados</h3><div id="distribution" class="muted"></div></div>
+</section>
+
+
+<section id="rutinas" class="view">
+ <div class="card">
+  <h2>🏃 Rutinas semanales</h2>
+  <div class="muted">Agrega hábitos como “Correr 1 hora” y márcalos de lunes a domingo.</div>
+  <div class="row" style="margin-top:14px">
+   <div><label>Actividad</label><input id="routineTitle" placeholder="Ej. Correr 1 hora"></div>
+   <div><label>Meta / detalle</label><input id="routineDetail" placeholder="Ej. 1 hora, 5 km..."></div>
+  </div>
+  <div class="actions"><button class="btn" onclick="addRoutine()">＋ Agregar rutina</button></div>
+ </div>
+ <div class="card">
+  <div class="sectiontitle"><h2 style="margin:0">📅 Esta semana</h2><b id="routineWeekSummary">0% cumplido</b></div>
+  <div id="routineList" style="margin-top:12px"></div>
+ </div>
+</section>
+<section id="configuracion" class="view">
+<section id="onlineSync" class="card" style="margin-bottom:14px">
+  <h2>☁️ Sincronización en la nube</h2>
+  <p class="muted">NEW ERA funciona localmente y puede sincronizarse con Firebase cuando conectes tu proyecto.</p>
+  <div id="cloudStatus" class="muted">Estado: local</div>
+  <div class="actions" style="margin-top:10px">
+    <button class="btn" onclick="syncNow()">☁️ Sincronizar ahora</button>
+  </div>
+</section>
+
+ <div class="card"><h2>⚙️ Configuración</h2>
+  <div class="setting"><div class="toggleline"><div><b>🔔 Aviso 15 minutos antes</b><div class="muted">Intenta mostrar un aviso previo al recordatorio.</div></div><button id="preSwitch" class="switch" onclick="toggleSetting('preReminder')"><i></i></button></div></div>
+  <div class="setting"><div class="toggleline"><div><b>🔁 Insistir hasta que respondas</b><div class="muted">Si no está marcada, se vuelve a avisar en el intervalo elegido.</div></div><button id="insistSwitch" class="switch" onclick="toggleSetting('insist')"><i></i></button></div>
+   <label>Intervalo del segundo aviso</label><select id="insistMinutes" onchange="settings.insistMinutes=Number(this.value);saveSettings()"><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="60">60 minutos</option></select>
+  </div>
+  <div class="setting"><b>🌙 No molestar</b><div class="row" style="margin-top:7px"><div><label>Desde</label><input id="quietFrom" type="time" onchange="settings.quietFrom=this.value;saveSettings()"></div><div><label>Hasta</label><input id="quietTo" type="time" onchange="settings.quietTo=this.value;saveSettings()"></div></div></div>
+  <div class="setting"><b>🎨 Apariencia</b><div class="row3" style="margin-top:7px"><div><label>Color</label><select id="accent" onchange="setAccent(this.value)"><option value="#e10600">🔴 Rojo</option><option value="#2979ff">🔵 Azul</option><option value="#8e44ad">🟣 Morado</option><option value="#16a34a">🟢 Verde</option><option value="#eeeeee">⚪ Blanco</option></select></div><div><label>Tarjetas</label><select id="density" onchange="setDensity(this.value)"><option value="normal">Normal</option><option value="compact">Compacto</option></select></div><div><label>Animaciones</label><select id="animations" onchange="setAnimations(this.value)"><option value="on">ON</option><option value="off">OFF</option></select></div></div></div>
+  <div class="setting"><b>💾 Copias de seguridad</b><div class="actions"><button class="btn" onclick="exportData()">📤 Exportar bitácora</button><button class="btn gray" onclick="document.getElementById('importFile').click()">📥 Importar respaldo</button><button class="btn outline" onclick="createBackup()">💾 Crear respaldo rápido</button></div><input id="importFile" type="file" accept=".json,application/json" class="hidden" onchange="importData(event)"></div>
+  <div class="setting"><b>🧹 Datos</b><div class="actions"><button class="btn danger" onclick="clearAllData()">🗑️ Borrar todos los datos</button></div></div>
+  <div class="notice" style="margin-top:12px">NEW ERA funciona sin internet y guarda la información en este navegador. Las notificaciones del navegador pueden requerir que la página siga abierta.</div>
+ </div>
+</section>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="stateModal"><div class="modalbox"><h2>¿Qué pasó con esta actividad?</h2><p class="muted">Elige el estado que quieres registrar.</p><div class="statebuttons"><button onclick="setState('hice')">✓ Lo hice</button><button onclick="setState('nohice')">✕ No lo hice</button><button onclick="setState('hare')">→ Lo haré</button><button class="cancel" onclick="closeModal()">Cancelar</button></div></div></div>
+<div class="modal" id="confirmModal"><div class="modalbox"><h2 id="confirmTitle">Confirmar</h2><p id="confirmText" class="muted"></p><div class="actions"><button class="btn danger" id="confirmYes">Confirmar</button><button class="btn gray" onclick="closeConfirm()">Cancelar</button></div></div></div>
+
+<script>
+const KEY='mi_bitacora_v2';
+const TRASH='newEraTrashV8';
+const SETTINGS='newEraSettingsV8';
+let entries=JSON.parse(localStorage.getItem(KEY)||'[]');
+let trash=JSON.parse(localStorage.getItem(TRASH)||'[]');
+let settings=Object.assign({preReminder:false,insist:false,insistMinutes:30,quietFrom:'22:00',quietTo:'07:00',accent:'#e10600',density:'normal',animations:'on'},JSON.parse(localStorage.getItem(SETTINGS)||'{}'));
+let calDate=new Date(),selectedDate=todayISO(),historyDays=7,activeFilter='all',pendingToggle=null,confirmAction=null,alertLog=JSON.parse(localStorage.getItem('newEraAlertLogV8')||'{}');
+
+function todayISO(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function typeName(t){return {hice:'Lo hice',nohice:'No lo hice',hare:'Lo haré'}[t]||'Lo haré'}
+function dateText(s){if(!s)return '';let [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
+function save(){localStorage.setItem(KEY,JSON.stringify(entries))}
+function saveSettings(){localStorage.setItem(SETTINGS,JSON.stringify(settings));applySettings()}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove('show'),2300)}
+function go(view){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===view));if(view==='calendario')renderCalendar();if(view==='historial'){renderHistory();renderTrash()}if(view==='estadisticas')renderStats();if(view==='configuracion')loadSettingsUI()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.view));
+
+function normalize(){
+  entries=entries.map(e=>({...e,days:Array.isArray(e.days)?e.days:[],startDate:e.startDate||e.date||todayISO(),endDate:e.endDate||e.startDate||e.date||todayISO(),repeat:e.repeat||'none',checked:!!e.checked}));
+  const today=todayISO();
+  entries.forEach(e=>{
+    if(e.type==='hare' && e.endDate && today>e.endDate && !e.checked){e.type='nohice';e.checked=false;e.autoExpired=true}
+  });
+  // Remove old alert log keys and old trash after 7 days.
+  const cutoff=new Date();cutoff.setDate(cutoff.getDate()-7);
+  trash=trash.filter(x=>new Date(x.deletedAt)>cutoff);
+  localStorage.setItem(TRASH,JSON.stringify(trash));save();
+}
+function buildRecurring(){
+  const existing=new Set(entries.map(e=>e.seriesId+'|'+e.date));
+  const base=[...entries];
+  let additions=[];
+  for(const e of base){
+    if(!e.seriesId||e.repeat==='none')continue;
+    const start=new Date((e.date||todayISO())+'T00:00:00');
+    const end=new Date((e.endDate||e.startDate||todayISO())+'T00:00:00');
+    let d=new Date(start);
+    let guard=0;
+    while(guard++<370){
+      d.setDate(d.getDate()+1);
+      const iso=todayISO(d);
+      if(d>end || iso>todayISO()) break;
+      let ok=e.repeat==='daily'||(e.repeat==='weekdays'&&d.getDay()>=1&&d.getDay()<=5)||(e.repeat==='weekly'&&d.getDay()===start.getDay())||(e.repeat==='custom'&&(e.days||[]).includes(d.getDay()));
+      if(ok && !existing.has(e.seriesId+'|'+iso)){
+        additions.push({...e,id:Date.now()+Math.random(),date:iso,checked:false,type:'hare',created:new Date().toISOString(),modified:null,autoExpired:false});
+        existing.add(e.seriesId+'|'+iso);
+      }
+    }
+  }
+  if(additions.length){entries.push(...additions);save()}
+}
+function selectedDays(){return [...document.querySelectorAll('#days .sel')].map(b=>Number(b.dataset.day))}
+function setupDays(){document.getElementById('days').innerHTML=[['L',1],['M',2],['X',3],['J',4],['V',5],['S',6],['D',0]].map(([x,n])=>`<button type="button" class="daybtn" data-day="${n}">${x}</button>`).join('');document.querySelectorAll('#days .daybtn').forEach(b=>b.onclick=()=>b.classList.toggle('sel'))}
+function addEntry(){
+ const title=document.getElementById('title').value.trim();if(!title){toast('Escribe una actividad.');return}
+ const type=document.getElementById('type').value,date=document.getElementById('date').value||todayISO(),startDate=document.getElementById('startDate').value||date,endDate=document.getElementById('endDate').value||startDate,repeat=document.getElementById('repeat').value;
+ if(endDate<startDate){toast('La fecha final no puede ser anterior a la inicial.');return}
+ let days=selectedDays();if(repeat==='daily')days=[0,1,2,3,4,5,6];if(repeat==='weekdays')days=[1,2,3,4,5];
+ if(repeat==='custom'&&!days.length){toast('Elige al menos un día.');return}
+ const now=new Date().toISOString(),seriesId=repeat==='none'?null:'series_'+Date.now();
+ entries.unshift({id:Date.now(),seriesId,title,type,date,reminder:document.getElementById('reminder').value,days,startDate,endDate,note:document.getElementById('note').value.trim(),checked:type==='hice',created:now,modified:null,repeat,autoExpired:false});
+ buildRecurring();save();clearForm();renderAll();toast('Actividad guardada ✓');
+}
+function clearForm(){['title','note','reminder'].forEach(id=>document.getElementById(id).value='');document.getElementById('type').value='hare';document.getElementById('repeat').value='none';document.getElementById('repeatDaysWrap').classList.add('hidden');document.getElementById('date').value=todayISO();document.getElementById('startDate').value=todayISO();document.getElementById('endDate').value=todayISO();document.querySelectorAll('#days .daybtn').forEach(b=>b.classList.remove('sel'))}
+document.getElementById('repeat').addEventListener('change',e=>document.getElementById('repeatDaysWrap').classList.toggle('hidden',e.target.value!=='custom'));
+
+function entryHTML(e){
+ const att=isAttention(e), cls='entry '+(e.checked?'done ':'')+(att?'attention ':'')+((e.type!=='hice')?'priority':'');
+ return `<div class="${cls}" data-id="${e.id}">
+  <input class="check" type="checkbox" ${e.checked?'checked':''} onclick="toggle(${e.id});return false">
+  <div class="entrymain"><div class="title">${esc(e.title)} <span class="badge b-${e.type}">${typeName(e.type)}</span>${att?'<span class="badge b-attn">ATENCIÓN</span>':''}</div>
+  <div class="meta">📅 ${dateText(e.date)} ${e.reminder?' · 🔔 '+e.reminder:''}${e.repeat&&e.repeat!=='none'?' · 🔁 '+repeatName(e.repeat):''}</div>
+  ${e.note?`<div class="note">${esc(e.note)}</div>`:''}</div>
+  <div class="entrytools"><button class="icon" title="Eliminar" onclick="moveToTrash(${e.id})">🗑️</button></div>
+ </div>`;
+}
+function repeatName(r){return {daily:'Diaria',weekdays:'L-V',weekly:'Semanal',custom:'Personalizada'}[r]||''}
+function isAttention(e){
+ if(e.type==='nohice')return true;
+ if(e.type==='hare'){
+   const today=new Date(todayISO()+'T00:00:00'), d=new Date((e.endDate||e.date)+'T00:00:00');
+   const diff=Math.ceil((d-today)/86400000);return diff<=2;
+ }
+ return false;
+}
+function toggle(id){pendingToggle=id;document.getElementById('stateModal').classList.add('show')}
+function closeModal(){pendingToggle=null;document.getElementById('stateModal').classList.remove('show')}
+function setState(type){
+ const e=entries.find(x=>x.id===pendingToggle);if(!e)return closeModal();
+ e.type=type;e.checked=type==='hice';e.modified=new Date().toISOString();save();closeModal();renderAll();toast(type==='hice'?'Marcado como: Lo hice ✓':type==='nohice'?'Marcado como: No lo hice':'Marcado como: Lo haré');
+}
+function moveToTrash(id){const e=entries.find(x=>x.id===id);if(!e)return;entries=entries.filter(x=>x.id!==id);trash.unshift({entry:e,deletedAt:new Date().toISOString()});localStorage.setItem(TRASH,JSON.stringify(trash));save();renderAll();toast('Actividad eliminada · puedes recuperarla desde Papelera')}
+function restoreTrash(i){const x=trash[i];if(!x)return;entries.unshift(x.entry);trash.splice(i,1);localStorage.setItem(TRASH,JSON.stringify(trash));save();renderAll();toast('Actividad recuperada ✓')}
+function emptyTrash(){if(!trash.length)return;confirmBox('Vaciar papelera','Se eliminarán definitivamente las actividades de la papelera.',()=>{trash=[];localStorage.setItem(TRASH,'[]');renderTrash();toast('Papelera vacía')})}
+
+function setFilter(f,el){activeFilter=f;document.querySelectorAll('.chip[data-filter]').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderToday()}
+function filteredToday(){
+ const q=(document.getElementById('search').value||'').toLowerCase(),today=todayISO();
+ return entries.filter(e=>e.date===today).filter(e=>{if(activeFilter==='hice')return e.type==='hice';if(activeFilter==='nohice')return e.type==='nohice';if(activeFilter==='hare')return e.type==='hare';if(activeFilter==='repeat')return e.repeat&&e.repeat!=='none';if(activeFilter==='reminder')return !!e.reminder;return true}).filter(e=>(e.title+' '+(e.note||'')).toLowerCase().includes(q)).sort((a,b)=>(isAttention(b)-isAttention(a))||((b.checked?1:0)-(a.checked?1:0)));
+}
+function dayStats(iso){const a=entries.filter(e=>e.date===iso),done=a.filter(e=>e.type==='hice'&&e.checked).length,no=a.filter(e=>e.type==='nohice').length,p=a.filter(e=>e.type==='hare').length;return {a,done,no,p,rate:a.length?Math.round(done/a.length*100):0}}
+function weekRate(offset=0){let done=0,total=0;for(let i=0;i<7;i++){let d=new Date();d.setDate(d.getDate()-i-offset*7);let s=dayStats(todayISO(d));done+=s.done;total+=s.a.length}return total?Math.round(done/total*100):0}
+function renderToday(){
+ const s=dayStats(todayISO());document.getElementById('mTotal').textContent=s.a.length;document.getElementById('mDone').textContent=s.done;document.getElementById('mNo').textContent=s.no;document.getElementById('mPending').textContent=s.p;document.getElementById('todayRate').textContent=s.rate+'%';document.getElementById('todayProgress').style.width=s.rate+'%';document.getElementById('weekRateText').textContent='Cumplimiento de la semana: '+weekRate()+'%';
+ const list=filteredToday();document.getElementById('todayList').innerHTML=list.length?list.map(entryHTML).join(''):'<div class="empty">No hay actividades que coincidan con el filtro.</div>';
+ const h=new Date().getHours();document.getElementById('greeting').textContent=h<12?'Buenos días ☀️':h<18?'Buenas tardes 🌤️':'Buenas noches 🌙';
+ document.getElementById('dailyMessage').textContent=s.a.length?`Hoy llevas ${s.rate}% de tus actividades. ${s.p?`Tienes ${s.p} por hacer.`:'¡Todo listo!'}`:'No tienes actividades para hoy.';
+}
+function renderCalendar(){
+ const y=calDate.getFullYear(),m=calDate.getMonth();document.getElementById('monthName').textContent=new Intl.DateTimeFormat('es-MX',{month:'long',year:'numeric'}).format(calDate);
+ const first=new Date(y,m,1),start=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate(),prev=new Date(y,m,0).getDate();let out='';
+ for(let i=0;i<42;i++){let n=i-start+1,muted=n<1||n>days,dt=new Date(y,m,n),iso=todayISO(dt);let num=muted?(n<1?prev+n:n-days):n;if(!muted||i<start||i>=start+days){/* keep grid */}const s=dayStats(iso),cls='calday '+(muted?'muted ':'')+(iso===todayISO()?'today ':'')+(iso===selectedDate?'selected':'');let dot=s.done===s.a.length&&s.a.length?'<i class="dot g"></i>':s.no?' <i class="dot r"></i>':s.p?' <i class="dot y"></i>':'';
+ out+=`<div class="${cls}" onclick="selectDay('${iso}')"><div class="daynum">${num}</div><div class="dots">${dot}${s.done&&s.no?'<i class="dot r"></i>':''}</div>${s.a.length?`<div class="calcount">${s.done}/${s.a.length}</div>`:''}</div>`}
+ document.getElementById('calendar').innerHTML=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(x=>`<div class="dow">${x}</div>`).join('')+out;renderSelected();
+}
+function moveMonth(n){calDate.setMonth(calDate.getMonth()+n);renderCalendar()}
+function selectDay(iso){selectedDate=iso;renderCalendar()}
+function renderSelected(){const s=dayStats(selectedDate);document.getElementById('selectedTitle').textContent='📅 '+dateText(selectedDate);document.getElementById('selectedList').innerHTML=s.a.length?s.a.map(entryHTML).join(''):`<div class="empty">Sin actividades en este día.</div>`}
+
+function setHistory(n,el){historyDays=n;document.querySelectorAll('#historial .toolbar .chip').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderHistory()}
+function renderHistory(){let list=entries.filter(e=>{if(historyDays==='all')return true;let d=new Date();d.setDate(d.getDate()-(historyDays-1));return e.date>=todayISO(d)}).sort((a,b)=>(b.date+b.created).localeCompare(a.date+a.created));let groups={};list.forEach(e=>(groups[e.date]??=[]).push(e));document.getElementById('historyList').innerHTML=list.length?Object.keys(groups).sort().reverse().map(d=>`<div class="section"><h3>📅 ${dateText(d)} · ${dayStats(d).rate}%</h3>${groups[d].map(entryHTML).join('')}</div>`).join(''):'<div class="empty">No hay registros en este periodo.</div>';renderTrash()}
+function renderTrash(){document.getElementById('trashList').innerHTML=trash.length?trash.map((x,i)=>`<div class="entry"><div class="entrymain"><b>${esc(x.entry.title)}</b><div class="meta">Eliminada: ${new Date(x.deletedAt).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</div></div><button class="btn small" onclick="restoreTrash(${i})">↩️ Recuperar</button></div>`).join(''):'<div class="empty">La papelera está vacía.</div>'}
+
+function streak(){let n=0,d=new Date(todayISO()+'T00:00:00');while(dayStats(todayISO(d)).a.length&&dayStats(todayISO(d)).done===dayStats(todayISO(d)).a.length){n++;d.setDate(d.getDate()-1)}return n}
+function bestStreak(){let dates=[...new Set(entries.filter(e=>e.checked&&e.type==='hice').map(e=>e.date))].sort(),best=0,cur=0,prev=null;for(const s of dates){let d=new Date(s+'T00:00:00');if(prev&&Math.round((d-prev)/86400000)===1)cur++;else cur=1;best=Math.max(best,cur);prev=d}return best}
+function renderStats(){
+ let total=entries.length,done=entries.filter(e=>e.checked&&e.type==='hice').length,rate=total?Math.round(done/total*100):0;document.getElementById('sRate').textContent=rate+'%';document.getElementById('sDone').textContent=done;document.getElementById('sStreak').textContent=streak()+' 🔥';document.getElementById('sBest').textContent=bestStreak();
+ let vals=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let s=dayStats(todayISO(d));vals.push({n:s.a.length,rate:s.rate,label:d.toLocaleDateString('es-MX',{weekday:'short'}).replace('.','')})}let max=Math.max(1,...vals.map(x=>x.n));document.getElementById('bars').innerHTML=vals.map(x=>`<div class="barwrap"><div class="barval">${x.rate}%</div><div class="bar" style="height:${Math.max(4,x.n/max*125)}px"></div><div class="barlabel">${x.label}</div></div>`).join('');
+ let dayNames=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],bestDay='—',bestVal=-1;for(let i=0;i<7;i++){let d=new Date();d.setDate(d.getDate()-i);let s=dayStats(todayISO(d));if(s.a.length&&s.rate>bestVal){bestVal=s.rate;bestDay=dayNames[d.getDay()]+' ('+s.rate+'%)'}}document.getElementById('bestDay').textContent=bestDay;
+ const counts={};entries.filter(e=>e.type==='hice'&&e.checked).forEach(e=>counts[e.title]=(counts[e.title]||0)+1);document.getElementById('topActivity').textContent=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0]||'—';
+ const fails={};entries.filter(e=>e.type==='nohice').forEach(e=>fails[e.title]=(fails[e.title]||0)+1);document.getElementById('badActivity').textContent=Object.keys(fails).sort((a,b)=>fails[b]-fails[a])[0]||'—';
+ let cur=weekRate(),prev=weekRate(1),delta=cur-prev;document.getElementById('weekCompare').textContent=`Esta semana ${cur}% · anterior ${prev}% · ${delta>=0?'+':''}${delta}%`;
+ const h=entries.filter(e=>e.type==='hice').length,no=entries.filter(e=>e.type==='nohice').length,ha=entries.filter(e=>e.type==='hare').length||0,t=entries.length||1;document.getElementById('distribution').innerHTML=`✓ Lo hice: ${h} (${Math.round(h/t*100)}%) · ✕ No lo hice: ${no} (${Math.round(no/t*100)}%) · → Lo haré: ${ha} (${Math.round(ha/t*100)}%)`;
+}
+
+function inQuiet(now=new Date()){const cur=now.getHours()*60+now.getMinutes(),[fh,fm]=settings.quietFrom.split(':').map(Number),[th,tm]=settings.quietTo.split(':').map(Number),from=fh*60+fm,to=th*60+tm;return from<=to?cur>=from&&cur<to:cur>=from||cur<to}
+function requestNotifications(){if(!('Notification'in window)){toast('Este navegador no admite notificaciones.');return}Notification.requestPermission().then(p=>toast(p==='granted'?'Avisos activados 🔔':'Avisos no activados'))}
+function checkReminders(){
+ if(!('Notification'in window)||Notification.permission!=='granted'||inQuiet())return;
+ const now=new Date(),iso=todayISO(now),day=now.getDay(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+ entries.forEach(e=>{
+  if(!e.reminder||e.checked||iso<e.startDate||iso>(e.endDate||e.startDate))return;
+  const days=e.days&&e.days.length?e.days:[day];if(!days.includes(day))return;
+  const [h,m]=e.reminder.split(':').map(Number),target=h*60+m,cur=now.getHours()*60+now.getMinutes(),diff=target-cur;
+  let kind=null;if(settings.preReminder&&diff===15)kind='pre';else if(diff===0)kind='main';else if(settings.insist&&diff<0&&Math.abs(diff)%settings.insistMinutes===0)kind='insist';
+  if(!kind)return;
+  const key=iso+'_'+e.id+'_'+kind+'_'+hm;if(alertLog[key])return;alertLog[key]=true;localStorage.setItem('newEraAlertLogV8',JSON.stringify(alertLog));
+  new Notification('NEW ERA',{body:(kind==='pre'?'⏰ En 15 min: ':'🔔 Es hora: ')+e.title});
+ });
+}
+function createBackup(){exportData();toast('Respaldo creado ✓')}
+function exportData(){const payload={app:'NEW ERA',version:8,exportedAt:new Date().toISOString(),entries,trash,settings};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='NEW_ERA_respaldo_'+todayISO()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importData(ev){const f=ev.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result),inc=Array.isArray(d)?d:d.entries;if(!Array.isArray(inc))throw 0;confirmBox('Importar respaldo','Las actividades actuales serán reemplazadas.',()=>{entries=inc;trash=Array.isArray(d.trash)?d.trash:[];if(d.settings)settings=Object.assign(settings,d.settings);save();localStorage.setItem(TRASH,JSON.stringify(trash));saveSettings();renderAll();toast('Respaldo importado ✓')})}catch(e){toast('No se pudo importar el archivo.')}};r.readAsText(f);ev.target.value=''}
+function clearAllData(){confirmBox('Borrar todos los datos','Esta acción eliminará actividades, papelera y estadísticas guardadas.',()=>{entries=[];trash=[];save();localStorage.setItem(TRASH,'[]');renderAll();toast('Datos eliminados')})}
+function confirmBox(title,text,fn){document.getElementById('confirmTitle').textContent=title;document.getElementById('confirmText').textContent=text;confirmAction=fn;document.getElementById('confirmYes').onclick=()=>{const f=confirmAction;closeConfirm();f&&f()};document.getElementById('confirmModal').classList.add('show')}
+function closeConfirm(){document.getElementById('confirmModal').classList.remove('show');confirmAction=null}
+function toggleSetting(k){settings[k]=!settings[k];saveSettings();loadSettingsUI()}
+function loadSettingsUI(){document.getElementById('preSwitch').classList.toggle('on',settings.preReminder);document.getElementById('insistSwitch').classList.toggle('on',settings.insist);document.getElementById('insistMinutes').value=settings.insistMinutes;document.getElementById('quietFrom').value=settings.quietFrom;document.getElementById('quietTo').value=settings.quietTo;document.getElementById('accent').value=settings.accent;document.getElementById('density').value=settings.density;document.getElementById('animations').value=settings.animations}
+function setAccent(v){settings.accent=v;saveSettings()}
+function setDensity(v){settings.density=v;saveSettings()}
+function setAnimations(v){settings.animations=v;saveSettings()}
+function applySettings(){document.documentElement.style.setProperty('--accent',settings.accent);document.documentElement.style.setProperty('--accent2',settings.accent);document.body.classList.toggle('compact',settings.density==='compact');document.body.classList.toggle('noanim',settings.animations==='off')}
+function renderAll(){normalize();buildRecurring();renderToday();renderHistory();renderStats();renderRoutines();loadSettingsUI()}
+
+const ROUTINES='newEraRoutinesV9';
+let routines=JSON.parse(localStorage.getItem(ROUTINES)||'[]');
+function saveRoutines(){localStorage.setItem(ROUTINES,JSON.stringify(routines))}
+function mondayOf(d=new Date()){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());const day=x.getDay();x.setDate(x.getDate()-(day===0?6:day-1));return x}
+function isoAdd(base,n){const d=new Date(base);d.setDate(d.getDate()+n);return todayISO(d)}
+function addRoutine(){
+ const title=document.getElementById('routineTitle').value.trim(),detail=document.getElementById('routineDetail').value.trim();
+ if(!title){toast('Escribe una rutina.');return}
+ routines.push({id:String(Date.now())+'_'+Math.random().toString(36).slice(2),title,detail,days:{},created:new Date().toISOString()});
+ saveRoutines();document.getElementById('routineTitle').value='';document.getElementById('routineDetail').value='';renderRoutines();toast('Rutina agregada ✓');
+}
+function setRoutineDay(id,iso,status){const r=routines.find(x=>x.id===id);if(!r)return;r.days=r.days||{};if(status==='clear')delete r.days[iso];else r.days[iso]=status;saveRoutines();renderRoutines()}
+function deleteRoutine(id){confirmBox('Eliminar rutina','Se eliminará esta rutina y su registro semanal.',()=>{routines=routines.filter(x=>x.id!==id);saveRoutines();renderRoutines();toast('Rutina eliminada')})}
+function renderRoutines(){
+ const list=document.getElementById('routineList');if(!list)return;
+ const names=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'],mon=mondayOf();let totalSlots=routines.length*7,doneSlots=0;
+ routines.forEach(r=>{for(let i=0;i<7;i++)if((r.days||{})[isoAdd(mon,i)]==='hice')doneSlots++});
+ document.getElementById('routineWeekSummary').textContent=(totalSlots?Math.round(doneSlots/totalSlots*100):0)+'% cumplido';
+ if(!routines.length){list.innerHTML='<div class="empty">Todavía no tienes rutinas. Agrega algo como <b>“Correr 1 hora”</b>.</div>';return}
+ list.innerHTML=routines.map(r=>{
+   let done=0;for(let i=0;i<7;i++)if((r.days||{})[isoAdd(mon,i)]==='hice')done++;
+   const rate=Math.round(done/7*100);
+   const dayHtml=names.map((name,i)=>{const iso=isoAdd(mon,i),v=(r.days||{})[iso]||'',cls=v==='hice'?'done':v==='nohice'?'no':'';
+     return `<div class="rday ${cls} ${iso===todayISO()?'today':''}"><span class="rname">${name}</span><span class="rstatus">${v==='hice'?'✓ Lo hice':v==='nohice'?'✕ No lo hice':'— Sin marcar'}</span><div class="actions" style="justify-content:center;margin-top:6px"><button class="btn small" onclick="setRoutineDay('${r.id}','${iso}','hice')">✓</button><button class="btn danger small" onclick="setRoutineDay('${r.id}','${iso}','nohice')">✕</button>${v?`<button class="btn outline small" onclick="setRoutineDay('${r.id}','${iso}','clear')">↺</button>`:''}</div></div>`}).join('');
+   return `<div class="routine"><div class="routinehead"><div><div class="routinetitle">${esc(r.title)}</div>${r.detail?`<div class="routinedetail">${esc(r.detail)}</div>`:''}</div><div class="routinepercent">${rate}%</div></div><div class="progress" style="margin-top:10px"><i style="width:${rate}%"></i></div><div class="routinedays">${dayHtml}</div><div class="routine-actions"><button class="btn danger small" onclick="deleteRoutine('${r.id}')">🗑️ Eliminar rutina</button></div></div>`;
+ }).join('');
+}
+
+document.getElementById('headerDate').textContent=new Intl.DateTimeFormat('es-MX',{dateStyle:'full'}).format(new Date());
+setupDays();document.getElementById('date').value=todayISO();document.getElementById('startDate').value=todayISO();document.getElementById('endDate').value=todayISO();applySettings();renderAll();setInterval(()=>{normalize();buildRecurring();renderAll();checkReminders()},30000);
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+/*
+  CONFIGURACIÓN:
+  1. Crea un proyecto en Firebase.
+  2. Activa Authentication > Anonymous.
+  3. Crea Firestore Database.
+  4. Copia aquí la configuración de tu app web.
+*/
+const FIREBASE_CONFIG = {
+  apiKey: "PON_AQUI_TU_API_KEY",
+  authDomain: "PON_AQUI_TU_PROJECT_ID.firebaseapp.com",
+  projectId: "PON_AQUI_TU_PROJECT_ID",
+  storageBucket: "PON_AQUI_TU_PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "PON_AQUI_TU_SENDER_ID",
+  appId: "PON_AQUI_TU_APP_ID"
+};
+
+let cloud = {app:null, auth:null, db:null, uid:null, ready:false};
+
+function setCloudStatus(text){
+  const el=document.getElementById("cloudStatus");
+  if(el) el.textContent="Estado: "+text;
+}
+
+function validConfig(){
+  return !Object.values(FIREBASE_CONFIG).some(v=>String(v).includes("PON_AQUI"));
+}
+
+async function startCloud(){
+  if(!validConfig()){ setCloudStatus("local — falta configurar Firebase"); return; }
+  try{
+    cloud.app=initializeApp(FIREBASE_CONFIG);
+    cloud.auth=getAuth(cloud.app);
+    cloud.db=getFirestore(cloud.app);
+    await signInAnonymously(cloud.auth);
+    onAuthStateChanged(cloud.auth, user=>{
+      if(user){ cloud.uid=user.uid; cloud.ready=true; setCloudStatus("conectado a la nube"); }
+    });
+  }catch(e){
+    console.error(e);
+    setCloudStatus("sin conexión a la nube");
+  }
+}
+
+window.syncNow=async function(){
+  if(!cloud.ready){ setCloudStatus("local — configura Firebase primero"); return; }
+  try{
+    const ref=doc(cloud.db,"users",cloud.uid);
+    const local={
+      activities: JSON.parse(localStorage.getItem("mi_bitacora_v2")||"[]"),
+      routines: JSON.parse(localStorage.getItem("newEraRoutinesV9")||"[]"),
+      exportedAt:new Date().toISOString()
+    };
+    await setDoc(ref, local);
+    setCloudStatus("sincronizado ✓");
+  }catch(e){
+    console.error(e);
+    setCloudStatus("error al sincronizar");
+  }
+};
+
+startCloud();
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
